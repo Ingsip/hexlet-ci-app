@@ -9,11 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps: # список шагов, которые надо выполнить
       # Клонируем репозиторий
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
       # Setup project
       - run: make setup
       # Test project
       - run: make test
       # Lint project
       - run: make lint
-      
+      - name: Run Snyk to check for vulnerabilities  
+        uses: snyk/actions/node@master
+        env: 
+          SNYK_TOKEN: ${{secrets.SNYK_TOKEN}}
+
