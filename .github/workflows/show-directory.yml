@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       # Setup project
       - run: make setup
+      - run: make start
       # Test project
       - run: make test
       # Lint project
